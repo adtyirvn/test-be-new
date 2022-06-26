@@ -2,11 +2,12 @@ from typing import List
 
 import fastapi
 from fastapi import Depends, HTTPException
+from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
 from db.db_setup import get_db
 from pydantic_schemas.course import Course, CourseCreate
-from api.utils.courses import get_course, get_courses, create_course
+from api.utils.courses import get_course, get_courses, create_course, delete_one_course, update_one_course
 
 router = fastapi.APIRouter()
 
@@ -30,14 +31,19 @@ async def read_course(course_id: int, db: Session = Depends(get_db)):
     return db_course
 
 
-@router.patch("/courses/{course_id}")
-async def update_course():
-    return {"courses": []}
+@router.put("/courses/{course_id}")
+async def update_course(course_id: int, db: Session = Depends(get_db)):
+    return {"list":[]}
 
 
 @router.delete("/courses/{course_id}")
-async def delete_course():
-    return {"courses": []}
+async def delete_course(course_id: int, db: Session = Depends(get_db)):
+    db_course = get_course(db=db, course_id=course_id)
+    if db_course is None:
+        raise HTTPException(status_code=404, detail="Course not found")
+    else:
+        db_course = delete_one_course(db=db, course_id=course_id)
+    return db_course
 
 
 @router.get("/courses/{course_id}/sections")

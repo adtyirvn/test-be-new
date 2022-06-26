@@ -1,3 +1,5 @@
+import sqlalchemy
+
 from sqlalchemy.orm import Session
 
 from db.models.course import Course
@@ -27,3 +29,13 @@ def create_course(db: Session, course: CourseCreate):
     db.commit()
     db.refresh(db_course)
     return db_course
+
+def delete_one_course(db: Session, course_id: int):
+    courses = db.query(Course).filter(Course.id == course_id).first()
+    db.delete(courses)
+    db.commit()
+    return courses
+
+def update_one_course(db: Session, course_id: int, course: CourseCreate):
+    pass
+    
