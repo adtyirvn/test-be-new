@@ -9,6 +9,10 @@ python = "^3.9"
 uvicorn = "^0.18.1"
 fastapi = "^0.78.0"
 pydantic = "^1.9.1"
+SQLAlchemy = "^1.4.39"
+psycopg2-binary = "^2.9.3"
+SQLAlchemy-Utils = "^0.38.2"
+alembic = "^1.8.0"
 
 [tool.poetry.dev-dependencies]
 
